@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora Científica Avançada</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f5f5f5;
+    }
+
+    .calculator {
+      width: 400px;
+      background: #ffffff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .display {
+      width: 100%;
+      height: 80px;
+      background: #1e1e2e;
+      color: #fff;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 20px;
+      box-sizing: border-box;
+      overflow-x: auto;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: #d3d3d3;
+    }
+
+    .button {
+      padding: 20px;
+      background: #ffffff;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .button.operator {
+      background: #6c63ff;
+      color: #fff;
+    }
+
+    .button.function {
+      background: #ff6b6b;
+      color: #fff;
+    }
+
+    .button:hover {
+      background: #eeeeee;
+    }
+
+    .button.operator:hover {
+      background: #5a52cc;
+    }
+
+    .button.function:hover {
+      background: #e65a5a;
+    }
+
+    .button.equal {
+      background: #4caf50;
+      color: #fff;
+      grid-column: span 2;
+    }
+
+    .button.equal:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div id="display" class="display">0</div>
+    <div class="buttons">
+      <!-- Numbers -->
+      <button class="button" onclick="append('7')">7</button>
+      <button class="button" onclick="append('8')">8</button>
+      <button class="button" onclick="append('9')">9</button>
+      <button class="button operator" onclick="append('/')">/</button>
+
+      <button class="button" onclick="append('4')">4</button>
+      <button class="button" onclick="append('5')">5</button>
+      <button class="button" onclick="append('6')">6</button>
+      <button class="button operator" onclick="append('*')">*</button>
+
+      <button class="button" onclick="append('1')">1</button>
+      <button class="button" onclick="append('2')">2</button>
+      <button class="button" onclick="append('3')">3</button>
+      <button class="button operator" onclick="append('-')">-</button>
+
+      <button class="button" onclick="append('0')">0</button>
+      <button class="button" onclick="append('.')">.</button>
+      <button class="button equal" onclick="calculate()">=</button>
+      <button class="button operator" onclick="append('+')">+</button>
+
+      <!-- Advanced Functions -->
+      <button class="button function" onclick="append('Math.sin(')">sin</button>
+      <button class="button function" onclick="append('Math.cos(')">cos</button>
+      <button class="button function" onclick="append('Math.tan(')">tan</button>
+      <button class="button function" onclick="append('Math.sqrt(')">√</button>
+
+      <button class="button function" onclick="append('Math.log(')">ln</button>
+      <button class="button function" onclick="append('Math.exp(')">e^</button>
+      <button class="button function" onclick="append('Math.PI')">π</button>
+      <button class="button function" onclick="append('Math.E')">e</button>
+
+      <button class="button function" onclick="append('**')">^</button>
+      <button class="button function" onclick="append('!')">n!</button>
+      <button class="button function" onclick="clearDisplay()">AC</button>
+      <button class="button function" onclick="backspace()">←</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+
+    function append(value) {
+      if (display.innerText === '0') {
+        display.innerText = value;
+      } else {
+        display.innerText += value;
+      }
+    }
+
+    function clearDisplay() {
+      display.innerText = '0';
+    }
+
+    function backspace() {
+      const current = display.innerText;
+      display.innerText = current.length > 1 ? current.slice(0, -1) : '0';
+    }
+
+    function calculate() {
+      let expression = display.innerText;
+
+      // Substituir operadores e funções para JS
+      expression = expression.replace(/(\d+)!/g, (_, n) => factorial(n));
+
+      try {
+        const result = eval(expression);
+        display.innerText = result;
+      } catch {
+        display.innerText = 'Erro';
+      }
+    }
+
+    function factorial(n) {
+      if (n === 0 || n === 1) return 1;
+      return n * factorial(n - 1);
+    }
+  </script>
+</body>
+</html>
